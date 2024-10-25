@@ -42,24 +42,15 @@ pinout:
   uo[7]: "result[7]"
 
   # Bidirectional pins
-  uio_in[0]: "opcode[0]"
-  uio_in[1]: "opcode[1]"
-  uio_in[2]: "opcode[2]"
-  uio_in[3]: "opcode[3]"
-  uio_in[4]: ""
-  uio_in[5]: ""
-  uio_in[6]: ""
-  uio_in[7]: ""
+  uio[0]: "opcode[0]"
+  uio[1]: "opcode[1]"
+  uio[2]: "opcode[2]"
+  uio[3]: "opcode[3]"
+  uio[4]: "carry_out"
+  uio[5]: "overflow"
+  uio[6]: ""
+  uio[7]: ""
 
-  # Bidirectional pins
-  uio_out[0]: ""
-  uio_out[1]: ""
-  uio_out[2]: ""
-  uio_out[3]: ""
-  uio_out[4]: ""
-  uio_out[5]: ""
-  uio_out[6]: "carry_out"
-  uio_out[7]: "overflow"
 
 # Do not change!
 yaml_version: 6
