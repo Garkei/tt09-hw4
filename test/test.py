@@ -88,14 +88,14 @@ async def test_tt_um_Richard28277(dut):
     # Expect 4 and 2 (0b0000_0010 0b0000_0100)
     assert dut.uo_out.value == 0b00000010
 
-    dut.ui_in.value = 0b0100_0010  # a = 15, b = 4
+    dut.ui_in.value = 0b1111_0100  # a = 15, b = 4
     dut.uio_in.value = 0b0011      # opcode = DIV
     await Timer(50, units='ns')
     display_result("DIV")
     # Expect R = 3 and Q = 3 
     assert dut.uo_out.value == 0b0011_0011
 
-    dut.ui_in.value = 0b0100_0000  # a = 15, b = 0
+    dut.ui_in.value = 0b1111_0000  # a = 15, b = 0
     dut.uio_in.value = 0b0011      # opcode = DIV
     await Timer(50, units='ns')
     display_result("DIV")
