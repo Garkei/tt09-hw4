@@ -28,12 +28,37 @@ async def test_tt_um_Richard28277(dut):
     display_result("ADD")
     assert dut.uo_out.value == 0b0000_1000  # Expect 8 (0b00001000)
 
+    dut.ui_in.value = 0b1111_0001  # a = 15, b = 1
+    dut.uio_in.value = 0b0000      # opcode = ADD
+    await Timer(50, units='ns')
+    display_result("ADD")
+    assert dut.uo_out.value == 0b0000_0000  # Expect 0 (0b00000000)
+
+    dut.ui_in.value = 0b1111_1111  # a = 15, b = 15
+    dut.uio_in.value = 0b0000      # opcode = ADD
+    await Timer(50, units='ns')
+    display_result("ADD")
+    assert dut.uo_out.value == 0b0000_1110  # Expect 14 (0b00001110)
+
     # Test SUB operation
     dut.ui_in.value = 0b0010_0001  # a = 2, b = 1
     dut.uio_in.value = 0b0001      # opcode = SUB
     await Timer(50, units='ns')
     display_result("SUB")
     assert dut.uo_out.value == 0b0000_0001  # Expect 1 (0b00000001)
+
+    dut.ui_in.value = 0b0100_1010  # a = 4, b = 10
+    dut.uio_in.value = 0b0001      # opcode = SUB
+    await Timer(50, units='ns')
+    display_result("SUB")
+    assert dut.uo_out.value == 0b0000_1010  # Expect -6 (0b00001010)
+
+    dut.ui_in.value = 0b1110_0111  # a = 14, b = 7
+    dut.uio_in.value = 0b0001      # opcode = SUB
+    await Timer(50, units='ns')
+    display_result("SUB")
+    assert dut.uo_out.value == 0b0000_0111  # Expect 1 (0b00000111)
+    
 
     # Test MUL operation
     dut.ui_in.value = 0b0010_0011  # a = 2, b = 3
@@ -42,6 +67,19 @@ async def test_tt_um_Richard28277(dut):
     display_result("MUL")
     assert dut.uo_out.value == 0b0000_0110  # Expect 6 (0b00000110)
 
+    dut.ui_in.value = 0b0010_0011  # a = 9, b = 17
+    dut.uio_in.value = 0b0010      # opcode = MUL
+    await Timer(50, units='ns')
+    display_result("MUL")
+    assert dut.uo_out.value == 0b1001_1001  # Expect 153 (0b10011001)
+
+    dut.ui_in.value = 0b1111_1111  # a = 15, b = 15
+    dut.uio_in.value = 0b0010      # opcode = MUL
+    await Timer(50, units='ns')
+    display_result("MUL")
+    assert dut.uo_out.value == 0b1110_0001  # Expect 225 (0b11100001)
+
+    
     # Test DIV operation
     dut.ui_in.value = 0b0100_0010  # a = 4, b = 2
     dut.uio_in.value = 0b0011      # opcode = DIV
@@ -50,12 +88,39 @@ async def test_tt_um_Richard28277(dut):
     # Expect 4 and 2 (0b0000_0010 0b0000_0100)
     assert dut.uo_out.value == 0b00000010
 
+    dut.ui_in.value = 0b0100_0010  # a = 15, b = 4
+    dut.uio_in.value = 0b0011      # opcode = DIV
+    await Timer(50, units='ns')
+    display_result("DIV")
+    # Expect R = 3 and Q = 3 
+    assert dut.uo_out.value == 0b0011_0011
+
+    dut.ui_in.value = 0b0100_0000  # a = 15, b = 0
+    dut.uio_in.value = 0b0011      # opcode = DIV
+    await Timer(50, units='ns')
+    display_result("DIV")
+    # Expect R = 0 and Q = 0
+    assert dut.uo_out.value == 0b0000_0000
+    
+
     # Test AND operation
     dut.ui_in.value = 0b0010_0010  # a = 2, b = 2
     dut.uio_in.value = 0b0100      # opcode = AND
     await Timer(50, units='ns')
     display_result("AND")
     assert dut.uo_out.value == 0b0000_0010  # Expect 2 (0b00000010)
+
+    dut.ui_in.value = 0b1011_0111  # a = 11, b = 7
+    dut.uio_in.value = 0b0100      # opcode = AND
+    await Timer(50, units='ns')
+    display_result("AND")
+    assert dut.uo_out.value == 0b0000_0011  # Expect 3 (0b00000011)
+
+    dut.ui_in.value = 0b1010_0101  # a = 10, b = 5
+    dut.uio_in.value = 0b0100      # opcode = AND
+    await Timer(50, units='ns')
+    display_result("AND")
+    assert dut.uo_out.value == 0b0000_0000  # Expect 0 (0b00000000)
 
     # Test OR operation
     dut.ui_in.value = 0b1100_1010  # a = 12, b = 10
@@ -64,12 +129,36 @@ async def test_tt_um_Richard28277(dut):
     display_result("OR")
     assert dut.uo_out.value == 0b00001110  # Expect 14 (0b00001110)
 
+    dut.ui_in.value = 0b0000_1111  # a = 0, b = 15
+    dut.uio_in.value = 0b0101      # opcode = OR
+    await Timer(50, units='ns')
+    display_result("OR")
+    assert dut.uo_out.value == 0b00001111  # Expect 11 (0b00001111)
+
+    dut.ui_in.value = 0b0000_0000  # a = 0, b = 0
+    dut.uio_in.value = 0b0101      # opcode = OR
+    await Timer(50, units='ns')
+    display_result("OR")
+    assert dut.uo_out.value == 0b00000000  # Expect 0 (0b00000000)
+
     # Test XOR operation
     dut.ui_in.value = 0b1100_1010  # a = 12, b = 10
     dut.uio_in.value = 0b0110      # opcode = XOR
     await Timer(50, units='ns')
     display_result("XOR")
     assert dut.uo_out.value == 0b0000_0110  # Expect 6 (0b00000110)
+
+    dut.ui_in.value = 0b1010_1010  # a = 10, b = 10
+    dut.uio_in.value = 0b0110      # opcode = XOR
+    await Timer(50, units='ns')
+    display_result("XOR")
+    assert dut.uo_out.value == 0b0000_0000  # Expect 0 (0b00000000)
+
+    dut.ui_in.value = 0b0000_1111  # a = 0, b = 15
+    dut.uio_in.value = 0b0110      # opcode = XOR
+    await Timer(50, units='ns')
+    display_result("XOR")
+    assert dut.uo_out.value == 0b0000_1111  # Expect 15 (0b00001111)
 
     # Test NOT operation
     dut.ui_in.value = 0b1100_1010  # a = 12, b = ignored
@@ -78,9 +167,33 @@ async def test_tt_um_Richard28277(dut):
     display_result("NOT")
     assert dut.uo_out.value == 0b00000011  # Expect 101 (0b00100101)
 
+    dut.ui_in.value = 0b1111_1010  # a = 15, b = ignored
+    dut.uio_in.value = 0b0111      # opcode = NOT
+    await Timer(50, units='ns')
+    display_result("NOT")
+    assert dut.uo_out.value == 0b00000000  # Expect 0 (0b0000000)
+
+    dut.ui_in.value = 0b0000_1010  # a = 0, b = ignored
+    dut.uio_in.value = 0b0111      # opcode = NOT
+    await Timer(50, units='ns')
+    display_result("NOT")
+    assert dut.uo_out.value == 0b00001111  # Expect 0 (0b00001111)
+
     # Test ENC operation
     dut.ui_in.value = 0b0010_1100  # a = 2, b = 12
     dut.uio_in.value = 0b1000      # opcode = ENC
     await Timer(50, units='ns')
     display_result("ENC")
     assert dut.uo_out.value == (0b0010_1100 ^ 0xAB)  # Expect encryption result with key 0xAB
+
+    dut.ui_in.value = 0b0000_0000  # a = 0, b = 0
+    dut.uio_in.value = 0b1000      # opcode = ENC
+    await Timer(50, units='ns')
+    display_result("ENC")
+    assert dut.uo_out.value == (0b0000_0000 ^ 0xAB)  # Expect encryption result with key 0xAB
+
+    dut.ui_in.value = 0b1111_1111  # a = 15, b = 15
+    dut.uio_in.value = 0b1000      # opcode = ENC
+    await Timer(50, units='ns')
+    display_result("ENC")
+    assert dut.uo_out.value == (0b1111_1111 ^ 0xAB)  # Expect encryption result with key 0xAB
