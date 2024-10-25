@@ -67,11 +67,11 @@ async def test_tt_um_Richard28277(dut):
     display_result("MUL")
     assert dut.uo_out.value == 0b0000_0110  # Expect 6 (0b00000110)
 
-    dut.ui_in.value = 0b0010_0011  # a = 9, b = 17
+    dut.ui_in.value = 0b1001_1111  # a = 9, b = 15
     dut.uio_in.value = 0b0010      # opcode = MUL
     await Timer(50, units='ns')
     display_result("MUL")
-    assert dut.uo_out.value == 0b1001_1001  # Expect 153 (0b10011001)
+    assert dut.uo_out.value == 0b1000_0111  # Expect 135 (0b10000111)
 
     dut.ui_in.value = 0b1111_1111  # a = 15, b = 15
     dut.uio_in.value = 0b0010      # opcode = MUL
